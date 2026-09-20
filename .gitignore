@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.test_phone_cert/
+.phone_camera_cert/
+.venv/
+*.log
