@@ -16,6 +16,13 @@ from vehicle_safety.models import SystemState
 from streamlit_webrtc import WebRtcMode, webrtc_streamer
 
 st.set_page_config(page_title="AI Smart Vehicle Safety", page_icon="🚗", layout="wide")
+
+# Public STUN discovery is needed when the hosted Streamlit server and browser
+# are on different networks. It helps WebRTC negotiate a peer connection
+# without exposing the application beyond its normal HTTPS endpoint.
+RTC_CONFIGURATION = {
+    "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}],
+}
 if "drowsiness" not in st.session_state:
     st.session_state.drowsiness = DrowsinessResult("NO FACE", 0.0, 0, 0, "Start the webcam to monitor the driver.")
 
@@ -70,6 +77,7 @@ with left:
         mode=WebRtcMode.SENDRECV,
         video_processor_factory=DriverVideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
+        rtc_configuration=RTC_CONFIGURATION,
         async_processing=True,
     )
     if ctx.video_processor:

@@ -41,7 +41,15 @@ python -m pip install -r requirements.txt
 streamlit run app.py --server.address 0.0.0.0
 ```
 
-Open the displayed local URL in a browser. The webcam control requests permission and takes a snapshot; no camera data is uploaded by this prototype.
+Open the displayed local URL in a browser. The webcam control requests
+permission and streams frames to the Streamlit process for local inference;
+frames are not sent to a vehicle-control system.
+
+When deployed to Render or another hosted HTTPS service, the dashboard supplies a
+public Google STUN server to WebRTC so the browser can negotiate the laptop
+camera connection across networks. Some restrictive corporate or campus
+networks may still require a TURN relay; this prototype does not include a
+private TURN server or credentials.
 
 The Face Landmarker asset is stored at `models/face_landmarker.task`. It is downloaded from
 Google's official MediaPipe model hosting URL:
